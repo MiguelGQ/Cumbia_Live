@@ -101,8 +101,7 @@ Selecciona los productos que serán mostrados durante el livestream.''',
                                 ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
                                       color: Palette.white,
@@ -124,10 +123,7 @@ Selecciona los productos que serán mostrados durante el livestream.''',
                                         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            products[position].productName !=
-                                                    null
-                                                ? products[position].productName
-                                                : "",
+                                            products[position].productName != null?products[position].productName:"" ,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                               color: products[position]
@@ -374,10 +370,9 @@ Selecciona los productos que serán mostrados durante el livestream.''',
         .ref()
         .child("thumbnails/${user.id}/${random.nextInt(1000000000)}");
     UploadTask uploadTask = ref.putFile(liveAux.auxImage);
-    var url = await (await uploadTask).ref.getDownloadURL();
     uploadTask.then((res) async {
       LogMessage.postSuccess("IMAGEN");
-      thumbnailURL = url;
+      thumbnailURL = await res.ref.getDownloadURL();
       print(res.ref.getDownloadURL());
       _joinLive();
     }).catchError((onError) {
@@ -393,7 +388,7 @@ Selecciona los productos que serán mostrados durante el livestream.''',
       );
     });
 
-    /* if (snapshot.error == null) {
+   /* if (snapshot.error == null) {
       LogMessage.postSuccess("IMAGEN");
       thumbnailURL = await snapshot.ref.getDownloadURL();
 
@@ -497,7 +492,10 @@ Selecciona los productos que serán mostrados durante el livestream.''',
       setState(() {
         liveId = value.id;
       });
-      References.lives.doc(value.id).collection("messages").add(messageDoc);
+      References.lives
+          .doc(value.id)
+          .collection("messages")
+          .add(messageDoc);
       LogMessage.postSuccess("LIVE");
 
       setState(() {
@@ -551,7 +549,7 @@ Selecciona los productos que serán mostrados durante el livestream.''',
 
   String variantLabel(int position) {
     // ignore: lines_longer_than_80_chars
-    return '${products[position].color.isNotEmpty ? '${products[position].color}/' : ''}${products[position].dimension != null && products[position].dimension.isNotEmpty ? '${products[position].dimension}/' : ''}${products[position].size.isNotEmpty ? '${products[position].size}/' : ''}${products[position].material != null && products[position].material.isNotEmpty ? '${products[position].material}/' : ''}${products[position].style != null && products[position].style.isNotEmpty ? '${products[position].style}/' : ''}';
+    return '${products[position].color.isNotEmpty ? '${products[position].color}/' : ''}${products[position].dimension != null && products[position].dimension.isNotEmpty ? '${products[position].dimension}/' : ''}${products[position].size.isNotEmpty ? '${products[position].size}/' : ''}${products[position].material != null && products[position].material.isNotEmpty ? '${products[position].material}/' : ''}${products[position].style != null &&products[position].style.isNotEmpty ? '${products[position].style}/' : ''}';
   }
 
   String setIcon(int position) {

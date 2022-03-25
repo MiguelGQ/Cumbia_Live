@@ -108,7 +108,7 @@ No son apropiadas actividades ilegales, violencia contra ti mismo u otras person
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (context) => PermissionsScreen(),
+                            builder: (context) => WithoutPermissionsScreen(),
                           ),
                         );
                       } else if (cameraPermissions && micPermissions) {
@@ -122,7 +122,7 @@ No son apropiadas actividades ilegales, violencia contra ti mismo u otras person
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (context) => WithoutPermissionsScreen(),
+                            builder: (context) => PermissionsScreen(),
                           ),
                         );
                       }

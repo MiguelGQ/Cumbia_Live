@@ -82,7 +82,6 @@ class _AudiencePageState extends State<AudiencePage> {
     _getMessages();
     _getAudience();
     _getProducts();
-    initialize();
     setState(() {
       // country = user.addresses[0].list ?? "";
       // city = user.addresses[0].email ?? "";
@@ -90,10 +89,10 @@ class _AudiencePageState extends State<AudiencePage> {
       // selectedItem = user.addresses[0].accountHolder;
       //if(user.addresses !=  null) {
       print(user.addresses.length);
-      for (int i = 0; i < user.addresses.length; i++) {
-        addressesList.add(user.addresses[i]);
-      }
-      // }
+        for (int i = 0; i < user.addresses.length; i++) {
+          addressesList.add(user.addresses[i]);
+        }
+     // }
     });
     // _addAddresses();
   }
@@ -135,22 +134,22 @@ class _AudiencePageState extends State<AudiencePage> {
                 : Stack(
                     children: <Widget>[
                       _viewRows(),
-                      _toolbar(),
-                      // Container(
-                      //   width: MediaQuery.of(context).size.width,
-                      //   // decoration: BoxDecoration(
-                      //   //     gradient: LinearGradient(
-                      //   //         colors: [
-                      //   //       Palette.black.withOpacity(0.8),
-                      //   //       Colors.transparent
-                      //   //     ],
-                      //   //         stops: [
-                      //   //       0.1,
-                      //   //       0.8
-                      //   //     ],
-                      //   //         begin: FractionalOffset.bottomCenter,
-                      //   //         end: FractionalOffset.topCenter)),
-                      // ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        // decoration: BoxDecoration(
+                        //     gradient: LinearGradient(
+                        //         colors: [
+                        //       Palette.black.withOpacity(0.8),
+                        //       Colors.transparent
+                        //     ],
+                        //         stops: [
+                        //       0.1,
+                        //       0.8
+                        //     ],
+                        //         begin: FractionalOffset.bottomCenter,
+                        //         end: FractionalOffset.topCenter)),
+                      ),
+                      _toolbar()
                     ],
                   ),
           ),
@@ -164,7 +163,7 @@ class _AudiencePageState extends State<AudiencePage> {
     _addAgoraEventHandlers();
     await _engine.enableWebSdkInteroperability(true);
     VideoEncoderConfiguration configuration = VideoEncoderConfiguration();
-    configuration.dimensions = VideoDimensions(width: 1920, height: 1080);
+    configuration.dimensions = VideoDimensions(width:1920, height: 1080);
     await _engine.setVideoEncoderConfiguration(configuration);
     await _engine.joinChannel(null, widget.channelName, null, 0);
   }
@@ -174,8 +173,6 @@ class _AudiencePageState extends State<AudiencePage> {
     _engine = await RtcEngine.create(appID);
     await _engine.enableVideo();
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
-    print(
-        "##################### Tipo de usuario: ${widget.role} ##################");
     await _engine.setClientRole(widget.role);
   }
 
@@ -221,11 +218,10 @@ class _AudiencePageState extends State<AudiencePage> {
   /// Helper function to get list of native views
   List<Widget> _getRenderViews() {
     final List<StatefulWidget> list = [];
-
-    // if (widget.role == ClientRole.Broadcaster) {
-    //   list.add(RtcLocalView.SurfaceView());
-    // }
-    // _users.forEach((int uid) => list.add(RtcRemoteView.SurfaceView(uid: uid)));
+    if (widget.role == ClientRole.Broadcaster) {
+      list.add(RtcLocalView.SurfaceView());
+    }
+    _users.forEach((int uid) => list.add(RtcRemoteView.SurfaceView(uid: uid)));
     return list;
   }
 
@@ -391,13 +387,7 @@ class _AudiencePageState extends State<AudiencePage> {
                           ),
                         ],
                       )
-                    : Container(
-                        height: 500,
-                        width: 500,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                        ),
-                      ),
+                    : _shrink,
                 CatapultaSpace(),
                 !isBuying
                     ? Container(
@@ -1309,10 +1299,9 @@ class _AudiencePageState extends State<AudiencePage> {
               width: MediaQuery.of(context).size.width,
               height: 161,
               decoration: BoxDecoration(
-                color:
-                    user.emeralds != null && user.emeralds < checkoutProducts()
-                        ? Palette.cumbiaRed
-                        : Palette.cumbiaDark,
+                color: user.emeralds != null && user.emeralds < checkoutProducts()
+                    ? Palette.cumbiaRed
+                    : Palette.cumbiaDark,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(10),
                   topLeft: Radius.circular(10),
@@ -1344,8 +1333,7 @@ class _AudiencePageState extends State<AudiencePage> {
                         'Saldo disponible',
                         style: TextStyle(
                           fontSize: 14,
-                          color: user.emeralds != null &&
-                                  user.emeralds < checkoutProducts()
+                          color: user.emeralds  != null && user.emeralds < checkoutProducts()
                               ? Palette.cumbiaRed
                               : Palette.cumbiaGrey,
                         ),
@@ -1408,8 +1396,7 @@ class _AudiencePageState extends State<AudiencePage> {
                           isLoading = true;
                         });
                         await _addPurchase();
-                      } else if (user.emeralds != null &&
-                          user.emeralds < checkoutProducts()) {
+                      } else if (user.emeralds!= null && user.emeralds < checkoutProducts()) {
                         _updateEmeraldsUser();
                       } else {
                         setState(() {
@@ -1428,12 +1415,8 @@ class _AudiencePageState extends State<AudiencePage> {
                       }
                     },
                     isLoading: isLoading,
-                    canPush: user.emeralds != null &&
-                            user.emeralds < checkoutProducts()
-                        ? false
-                        : true,
-                    title: user.emeralds != null &&
-                            user.emeralds < checkoutProducts()
+                    canPush: user.emeralds!= null && user.emeralds < checkoutProducts() ? false : true,
+                    title: user.emeralds!= null &&user.emeralds < checkoutProducts()
                         ? 'Recargar esmeraldas'
                         : isCheckoutDetails
                             ? 'Comprar ahora'
@@ -1619,7 +1602,10 @@ class _AudiencePageState extends State<AudiencePage> {
       "onLive": false
     });
     print("⏳ ACTUALIZARÉ LIVE");
-    References.lives.doc(widget.live.id).update(liveMap).then((r) async {
+    References.lives
+        .doc(widget.live.id)
+        .update(liveMap)
+        .then((r) async {
       print("✔ LIVE ACTUALIZADO");
     }).catchError((e) {
       showBasicAlert(
