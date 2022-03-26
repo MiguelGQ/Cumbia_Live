@@ -473,7 +473,6 @@ class _Q2ProductDetailScreenState extends State<Q2ProductDetailScreen> {
                 //         color: Palette.cumbiaDark, weight: FontWeight.bold),
                 //   ),
                 // ),
-                CatapultaSpace(),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: CumbiaButton(
